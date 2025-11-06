@@ -9,7 +9,8 @@ namespace FindIndexBench;
 [MemoryDiagnoser]
 public class Benchmarks
 {
-    public Benchmarks()
+    [GlobalSetup]
+    public void Setup()
     {
         var random = new Random(Count);
 
@@ -24,9 +25,9 @@ public class Benchmarks
         _predicateFunc = x => x == values[item];
     }
 
-    private readonly Func<string, bool> _predicateFunc;
-    private readonly Predicate<string> _predicate;
-    private readonly IEnumerable<string> _values;
+    private Func<string, bool> _predicateFunc = null!;
+    private Predicate<string> _predicate = null!;
+    private IEnumerable<string> _values = null!;
 
     [Params(10, 1_000, 100_000)]
     public int Count { get; set; }
@@ -45,7 +46,7 @@ public class Benchmarks
     [Benchmark(Baseline = true)]
     public int ToListFindIndex()
     {
-        return _values.ToList().FindIndex(_predicate);
+        return Values.ToList().FindIndex(_predicate);
     }
 
     public int SelectFirstOrDefaultWithAnonymousType()

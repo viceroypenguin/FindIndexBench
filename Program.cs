@@ -1,4 +1,4 @@
 ﻿using BenchmarkDotNet.Running;
 using FindIndexBench;
 
-BenchmarkRunner.Run<Benchmarks>();
+BenchmarkRunner.Run<Benchmarks>(args: args);
